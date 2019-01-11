@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#define BUFFER_SIZE 8
+#define BUFFER_SIZE 50
 
 //Returns true if we have valid arguments
 int checkArgs(int argc, char** args);
