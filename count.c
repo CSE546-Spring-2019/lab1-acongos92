@@ -23,7 +23,7 @@ int findSearchStringInByteArray(char string[], char searchString[], int stringSi
 //returns count of searchString occurrence in inFile
 int getSearchStringCount(FILE* inFile, char searchString[]);
 
-
+void printArray(char arr[], int arrSize, int start, int end);
 int main(int argc, char** args){
     FILE* inFile;
     FILE* outFile;
@@ -84,8 +84,13 @@ int findSearchStringInByteArray(char string[], char searchString[], int stringSi
             if(searchStringIndex){
                 count += findSearchStringInByteArray(string, searchString, stringSize, localIndex);
                 //set flag that we just want to scan for remainder of searchString
-                finishScan = 1; 
-                searchStringIndex++;
+                finishScan = 1;
+                if(string[localIndex] == searchString[searchStringIndex]){
+                    searchStringIndex++;
+                }else{
+                    endSearch = 1;
+                } 
+
             }
             else if (strlen(searchString) == 1){
                 count++;
