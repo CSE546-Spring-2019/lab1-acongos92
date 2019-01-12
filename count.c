@@ -64,11 +64,13 @@ unsigned countFileSize(FILE* file){
 }
 
 int writeFileSizeLine(FILE* outfile, unsigned byteCount){
+    printf(""Size of file is %u\n", byteCount);
     fprintf(outfile, "Size of file is %u\n", byteCount);
     fflush(outfile);
 }
 
 int writeSearchStringCountLine(FILE* outfile, int count){
+    printf("Number of matches = %d\n", count);
     fprintf(outfile, "Number of matches = %d\n", count);
     fflush(outfile);
 }
