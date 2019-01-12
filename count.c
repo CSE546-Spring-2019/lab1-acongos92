@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#define BUFFER_SIZE 50
+#define BUFFER_SIZE 80
 
 //Returns true if we have valid arguments
 int checkArgs(int argc, char** args);
@@ -23,6 +23,8 @@ int findSearchStringInByteArray(char string[], char searchString[], int stringSi
 //returns count of searchString occurrence in inFile
 int getSearchStringCount(FILE* inFile, char searchString[]);
 
+void printArray(char arr[], int arrSize);
+
 int main(int argc, char** args){
     FILE* inFile;
     FILE* outFile;
@@ -42,10 +44,11 @@ int main(int argc, char** args){
 int openFiles(FILE** inFile, FILE** outFile, char* inName, char* outName){
     *inFile = fopen(inName, "r");
     *outFile = fopen(outName, "w+");
-    if(inFile == NULL || outFile == NULL){
-        printf("Error Opening input or output file");
+    if(*inFile == NULL || *outFile == NULL){
+        printf("Error Opening input or output file\n");
+        fflush(stdout);
     }
-    return inFile != NULL && outFile != NULL;
+    return *inFile != NULL && *outFile != NULL;
 }
 int checkArgs(int argc, char** args){
     return argc == 4;
@@ -96,6 +99,7 @@ int findSearchStringInByteArray(char string[], char searchString[], int stringSi
         //case where we have found the first character, but it isnt repeated
         else if (searchStringIndex){
             if(searchStringIndex < strlen(searchString) && string[localIndex] == searchString[searchStringIndex]){
+                
                 searchStringIndex++;
                 if (searchStringIndex == strlen(searchString)){
                     count++;
@@ -131,4 +135,11 @@ int getSearchStringCount(FILE* inFile, char searchString[]){
     }
     return count;
     
+}
+
+void printArray(char arr[], int arrSize){
+    for(int i = 0; i < arrSize; i++){
+        printf("%c", arr[i]);
+    }
+    printf("\n");
 }
