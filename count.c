@@ -23,7 +23,6 @@ int findSearchStringInByteArray(char string[], char searchString[], int stringSi
 //returns count of searchString occurrence in inFile
 int getSearchStringCount(FILE* inFile, char searchString[]);
 
-void printArray(char arr[], int arrSize);
 
 int main(int argc, char** args){
     FILE* inFile;
@@ -135,11 +134,4 @@ int getSearchStringCount(FILE* inFile, char searchString[]){
     }
     return count;
     
-}
-
-void printArray(char arr[], int arrSize){
-    for(int i = 0; i < arrSize; i++){
-        printf("%c", arr[i]);
-    }
-    printf("\n");
 }
