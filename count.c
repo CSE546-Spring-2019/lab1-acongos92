@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
 #define BUFFER_SIZE 80
 
 //Returns true if we have valid arguments
@@ -29,9 +31,15 @@ int main(int argc, char** args){
     FILE* outFile;
     if(checkArgs(argc, args) && openFiles(&inFile, &outFile, args[1], args[3])){
         unsigned fileSize = countFileSize(inFile);
-        writeFileSizeLine(outFile, fileSize);
+        if(writeFileSizeLine(outFile, fileSize) < 0){
+            printf ("ERROR: writing to output file failed\n");
+            exit(1);
+        }
         int occurrence = getSearchStringCount(inFile, args[2]);
-        writeSearchStringCountLine(outFile, occurrence);
+        if (writeSearchStringCountLine(outFile, occurrence) < 0){
+            printf("ERROR: writing to output file failed\n");
+            exit(1);
+        }
         fclose(inFile);
         fclose(outFile);
     }else{
@@ -65,14 +73,16 @@ unsigned countFileSize(FILE* file){
 
 int writeFileSizeLine(FILE* outfile, unsigned byteCount){
     printf("Size of file is %u\n", byteCount);
-    fprintf(outfile, "Size of file is %u\n", byteCount);
+    int writeCode = fprintf(outfile, "Size of file is %u\n", byteCount);
     fflush(outfile);
+    return writeCode;
 }
 
 int writeSearchStringCountLine(FILE* outfile, int count){
     printf("Number of matches = %d\n", count);
-    fprintf(outfile, "Number of matches = %d\n", count);
+    int writeCode = fprintf(outfile, "Number of matches = %d\n", count);
     fflush(outfile);
+    return writeCode;
 }
 
 int findSearchStringInByteArray(char string[], char searchString[], int stringSize, int searchIndex){
