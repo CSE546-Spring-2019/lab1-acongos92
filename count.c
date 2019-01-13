@@ -64,7 +64,7 @@ unsigned countFileSize(FILE* file){
 }
 
 int writeFileSizeLine(FILE* outfile, unsigned byteCount){
-    printf(""Size of file is %u\n", byteCount);
+    printf("Size of file is %u\n", byteCount);
     fprintf(outfile, "Size of file is %u\n", byteCount);
     fflush(outfile);
 }
