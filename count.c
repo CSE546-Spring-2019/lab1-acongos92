@@ -72,8 +72,8 @@ long countFileSize(FILE* file){
 }
 
 int writeFileSizeLine(FILE* outfile, long byteCount){
-    printf("Size of file is %llo\n", byteCount);
-    int writeCode = fprintf(outfile, "Size of file is %llo\n", byteCount);
+    printf("Size of file is %ld\n", byteCount);
+    int writeCode = fprintf(outfile, "Size of file is %ld\n", byteCount);
     fflush(outfile);
     return writeCode;
 }
