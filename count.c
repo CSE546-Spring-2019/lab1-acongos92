@@ -11,10 +11,10 @@ int checkArgs(int argc, char** args);
 int openFiles(FILE** inFile, FILE** outFile, char* inName, char* outName);
 
 //counts the size of a file* in bytes returns the file pointer to the start of the file when done
-unsigned countFileSize(FILE* file);
+long countFileSize(FILE* file);
 
 //writes the file size output line to file*, returns -1 on error writing 
-int writeFileSizeLine(FILE* outfile, unsigned byteCount);
+int writeFileSizeLine(FILE* outfile,  long byteCount);
 
 //writes the word count output line to file*, returns -1 on error writing
 int writeSearchStringCountLine(FILE* outfile, int count);
@@ -30,7 +30,7 @@ int main(int argc, char** args){
     FILE* inFile;
     FILE* outFile;
     if(checkArgs(argc, args) && openFiles(&inFile, &outFile, args[1], args[3])){
-        unsigned fileSize = countFileSize(inFile);
+        long fileSize = countFileSize(inFile);
         if(writeFileSizeLine(outFile, fileSize) < 0){
             printf ("ERROR: writing to output file failed\n");
             exit(1);
@@ -49,7 +49,7 @@ int main(int argc, char** args){
 }
 
 int openFiles(FILE** inFile, FILE** outFile, char* inName, char* outName){
-    *inFile = fopen(inName, "r");
+    *inFile = fopen(inName, "rb");
     *outFile = fopen(outName, "w+");
     if(*inFile == NULL || *outFile == NULL){
         printf("Error Opening input or output file\n");
@@ -61,19 +61,19 @@ int checkArgs(int argc, char** args){
     return argc == 4;
 }
 
-unsigned countFileSize(FILE* file){
+long countFileSize(FILE* file){
     char buff[1]; 
-    unsigned size = 0;
-    while(fread(buff, 1, 1, file)){
+    long size = 0;
+    while(fread(buff, 1, 1, file) > 0){
         size++;
     }
     rewind(file);
     return size;
 }
 
-int writeFileSizeLine(FILE* outfile, unsigned byteCount){
-    printf("Size of file is %u\n", byteCount);
-    int writeCode = fprintf(outfile, "Size of file is %u\n", byteCount);
+int writeFileSizeLine(FILE* outfile, long byteCount){
+    printf("Size of file is %llo\n", byteCount);
+    int writeCode = fprintf(outfile, "Size of file is %llo\n", byteCount);
     fflush(outfile);
     return writeCode;
 }
